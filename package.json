@@ -1,0 +1,11 @@
+{
+  "name": "tehtavat_osa3",
+  "version": "0.0.1",
+  "description": "fullstack open 2018, part 3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pasi Junttila",
+  "license": "MIT"
+}
