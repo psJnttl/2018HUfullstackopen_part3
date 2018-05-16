@@ -4,7 +4,9 @@
   "description": "fullstack open 2018, part 3",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start":"npm index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon index.js"
   },
   "author": "Pasi Junttila",
   "license": "MIT",
