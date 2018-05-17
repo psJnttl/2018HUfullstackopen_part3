@@ -29,7 +29,6 @@ let persons = [
 ];
 
 app.get('/api/persons', (request, response) => {
-  console.log(request.headers);
   response.json(persons);
 });
 
@@ -68,15 +67,23 @@ app.use(bodyParser.json());
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
+  if ( !body.name || !body.number) {
+    return response.status(400).json({error: 'name, number or both missing'})
+  }
+  const duplicate = persons.find((p) => {
+    return body.name === p.name;
+  });
+  if (duplicate) {
+    return response.status(400).json({ error: 'name must be unique' });
+  }
   const person = {
     name: body.name,
     number: body.number,
     id: generateId()
   }
-  console.log(person);
   persons = persons.concat(person);
-  console.log(persons.length);
-  response.json(person);
+  response.append("Location", "/api/persons/" + person.id);
+  response.status(201).json(person);
 });
 
 const generateId = () => {
