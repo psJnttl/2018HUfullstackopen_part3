@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const PORT = 3001
+const bodyParser = require('body-parser')
+const MIN_RAND = 1;
+const MAX_RAND = 1000000000;
 
 let persons = [
   {
@@ -61,7 +64,24 @@ app.delete('/api/persons/:id', (request, response) => {
   return response.status(204).end();
 });
 
+app.use(bodyParser.json());
 
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId()
+  }
+  console.log(person);
+  persons = persons.concat(person);
+  console.log(persons.length);
+  response.json(person);
+});
+
+const generateId = () => {
+  return Math.floor(Math.random() * (MAX_RAND - MIN_RAND) + MIN_RAND);
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
