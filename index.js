@@ -29,7 +29,20 @@ let persons = [
   }
 ];
 
-app.use(morgan("tiny"));
+morgan.token('body', function (req, res) {
+  let body = req.body ? req.body : {};
+  return JSON.stringify(body);
+})
+
+app.use(morgan(function (tokens, req, res) {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.body(req, res),
+    'Status:', tokens.status(req, res), '-',
+    tokens['response-time'](req, res), 'ms'
+  ].join(' ')
+}));
 
 app.get('/api/persons', (request, response) => {
   response.json(persons);
