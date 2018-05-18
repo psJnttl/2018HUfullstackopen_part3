@@ -4,6 +4,7 @@ const PORT = 3001
 const bodyParser = require('body-parser')
 const MIN_RAND = 1;
 const MAX_RAND = 1000000000;
+let morgan = require('morgan');
 
 let persons = [
   {
@@ -27,6 +28,8 @@ let persons = [
     "id": 4
   }
 ];
+
+app.use(morgan("tiny"));
 
 app.get('/api/persons', (request, response) => {
   response.json(persons);

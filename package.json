@@ -4,14 +4,15 @@
   "description": "fullstack open 2018, part 3",
   "main": "index.js",
   "scripts": {
-    "start":"npm index.js",
+    "start": "npm index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "nodemon index.js"
   },
   "author": "Pasi Junttila",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "morgan": "^1.9.0"
   },
   "devDependencies": {
     "nodemon": "^1.17.4"
