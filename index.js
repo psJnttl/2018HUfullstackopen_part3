@@ -1,10 +1,11 @@
 const express = require('express');
 const app = express();
 const PORT = 3001
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const MIN_RAND = 1;
 const MAX_RAND = 1000000000;
 let morgan = require('morgan');
+const cors = require('cors');
 
 let persons = [
   {
@@ -43,6 +44,8 @@ app.use(morgan(function (tokens, req, res) {
     tokens['response-time'](req, res), 'ms'
   ].join(' ')
 }));
+
+app.use(cors());
 
 app.get('/api/persons', (request, response) => {
   response.json(persons);
