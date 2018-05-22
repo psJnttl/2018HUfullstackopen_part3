@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const PORT = 3001
 const bodyParser = require('body-parser');
 const MIN_RAND = 1;
 const MAX_RAND = 1000000000;
@@ -108,7 +107,7 @@ app.post('/api/persons', (request, response) => {
 const generateId = () => {
   return Math.floor(Math.random() * (MAX_RAND - MIN_RAND) + MIN_RAND);
 }
-
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
