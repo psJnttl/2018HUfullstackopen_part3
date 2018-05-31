@@ -5,6 +5,7 @@ const MIN_RAND = 1;
 const MAX_RAND = 1000000000;
 let morgan = require('morgan');
 const cors = require('cors');
+const Person = require('./models/person');
 
 let persons = [
   {
@@ -49,8 +50,26 @@ app.use(cors());
 app.use(express.static('build'));
 
 app.get('/api/persons', (request, response) => {
-  response.json(persons);
+  //console.log(Person);
+  Person
+    .find({})
+    .then((result) => {
+      console.log("puhelinluettelo:");
+      result.forEach((p) => {
+        console.log(p.name," ", p.number);
+      });
+      const formatted = result.map((person) => formatPerson(person));
+      response.json(formatted);
+  });
 });
+
+const formatPerson = (person) => {
+  return {
+    id: person._id,
+    name: person.name,
+    number: person.number
+  }
+}
 
 app.get('/info', (request, response) => {
   const info = "Puhelinluettelossa on <strong>" + persons.length +
