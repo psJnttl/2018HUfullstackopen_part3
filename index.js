@@ -58,18 +58,10 @@ app.get('/api/persons', (request, response) => {
       result.forEach((p) => {
         console.log(p.name," ", p.number);
       });
-      const formatted = result.map((person) => formatPerson(person));
+      const formatted = result.map((person) => Person.formatPerson(person));
       response.json(formatted);
   });
 });
-
-const formatPerson = (person) => {
-  return {
-    id: person._id,
-    name: person.name,
-    number: person.number
-  }
-}
 
 app.get('/info', (request, response) => {
   const info = "Puhelinluettelossa on <strong>" + persons.length +
