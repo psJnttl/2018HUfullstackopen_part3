@@ -79,17 +79,22 @@ app.get('/api/persons/:id', (request, response) => {
 });
 
 app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find((p) => {
-    return p.id === id;
-  });
-  if (!person) {
-    return response.status(404).end();
-  }
-  persons = persons.filter((p) => {
-    return p.id !== id;
-  })
-  return response.status(204).end();
+  Person
+    .findById(request.params.id)
+    .then(result => {
+      if (!result) {
+        return response.status(404).end();
+      }
+    })
+    .catch(error => {
+      return response.status(400).send({ error: 'malformatted id' });
+    });
+  Person
+    .deleteOne({_id: request.params.id})
+    .then(result => {
+      return response.status(204).end();
+    });
+
 });
 
 app.use(bodyParser.json());
