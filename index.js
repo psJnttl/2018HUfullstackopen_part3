@@ -50,17 +50,15 @@ app.use(cors());
 app.use(express.static('build'));
 
 app.get('/api/persons', (request, response) => {
-  //console.log(Person);
   Person
     .find({})
     .then((result) => {
-      console.log("puhelinluettelo:");
-      result.forEach((p) => {
-        console.log(p.name," ", p.number);
-      });
       const formatted = result.map((person) => Person.formatPerson(person));
       response.json(formatted);
-  });
+    })
+    .catch(error => {
+      console.log(error);
+    });
 });
 
 app.get('/info', (request, response) => {
@@ -101,20 +99,22 @@ app.post('/api/persons', (request, response) => {
   if ( !body.name || !body.number) {
     return response.status(400).json({error: 'name, number or both missing'})
   }
-  const duplicate = persons.find((p) => {
-    return body.name === p.name;
-  });
-  if (duplicate) {
-    return response.status(400).json({ error: 'name must be unique' });
-  }
-  const person = {
+
+  const person = new Person({
     name: body.name,
-    number: body.number,
-    id: generateId()
-  }
-  persons = persons.concat(person);
-  response.append("Location", "/api/persons/" + person.id);
-  response.status(201).json(person);
+    number: body.number
+  });
+  person
+    .save()
+    .then( (result) => {
+      const person = Person.formatPerson(result)
+      response.append("Location", "/api/persons/" + person.id);
+      response.status(201).json(person);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
 });
 
 const generateId = () => {
