@@ -122,6 +122,26 @@ app.post('/api/persons', (request, response) => {
 
 });
 
+app.put('/api/persons/:id', (request, response) => {
+  const body = request.body
+  if ( !body.name || !body.number) {
+    return response.status(400).json({error: 'name, number or both missing'})
+  }
+  const person = {
+    name: body.name,
+    number: body.number
+  }
+  Person
+    .findByIdAndUpdate(request.params.id, person, { new: true } )
+    .then(result => {
+      response.json(Person.formatPerson(result));
+    })
+    .catch(error => {
+      console.log(error);
+      response.status(400).send({ error: 'malformatted id' });
+    });
+});
+
 const generateId = () => {
   return Math.floor(Math.random() * (MAX_RAND - MIN_RAND) + MIN_RAND);
 }
