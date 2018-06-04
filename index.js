@@ -62,20 +62,36 @@ app.get('/api/persons', (request, response) => {
 });
 
 app.get('/info', (request, response) => {
-  const info = "Puhelinluettelossa on <strong>" + persons.length +
-                "</strong> henkilön tiedot.<br />" + new Date();
-  response.send(info);
+  Person
+    .count({})
+    .then(result => {
+      const info = "Puhelinluettelossa on <strong>" + result +
+                    "</strong> henkilön tiedot.<br />" + new Date();
+      response.send(info);
+    })
+    .catch(err => {
+      console.log("count err: ", err);
+      const msg = 'Counting documents in collection failed: \n' + err;
+      return response.status(400).send({ error: msg });
+    });
+
+
 });
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find((p) => {
-    return p.id === id;
-  });
-  if (!person) {
-    return response.status(404).end();
-  }
-  response.json(person);
+  Person
+    .findById(request.params.id)
+    .then(result => {
+      if (!result) {
+        return response.status(404).end();
+      }
+      response.json(Person.formatPerson(result));
+    })
+    .catch(error => {
+      console.log(error);
+      return response.status(400).send({ error: 'malformatted id' });
+    });
+
 });
 
 app.delete('/api/persons/:id', (request, response) => {
