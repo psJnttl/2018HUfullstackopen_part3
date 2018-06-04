@@ -7,29 +7,6 @@ let morgan = require('morgan');
 const cors = require('cors');
 const Person = require('./models/person');
 
-let persons = [
-  {
-    "name": "Arto Hellas",
-    "number": "040-123456",
-    "id": 1
-  },
-  {
-    "name": "Martti Tienari",
-    "number": "040-123456",
-    "id": 2
-  },
-  {
-    "name": "Arto Järvinen",
-    "number": "040-123456",
-    "id": 3
-  },
-  {
-    "name": "Lea Kutvonen",
-    "number": "040-123456",
-    "id": 4
-  }
-];
-
 morgan.token('body', function (req, res) {
   let body = req.body ? req.body : {};
   return JSON.stringify(body);
@@ -74,8 +51,6 @@ app.get('/info', (request, response) => {
       const msg = 'Counting documents in collection failed: \n' + err;
       return response.status(400).send({ error: msg });
     });
-
-
 });
 
 app.get('/api/persons/:id', (request, response) => {
@@ -91,7 +66,6 @@ app.get('/api/persons/:id', (request, response) => {
       console.log(error);
       return response.status(400).send({ error: 'malformatted id' });
     });
-
 });
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -110,7 +84,6 @@ app.delete('/api/persons/:id', (request, response) => {
     .then(result => {
       return response.status(204).end();
     });
-
 });
 
 app.use(bodyParser.json());
@@ -135,7 +108,6 @@ app.post('/api/persons', (request, response) => {
     .catch(error => {
       console.log(error);
     });
-
 });
 
 app.put('/api/persons/:id', (request, response) => {
@@ -158,9 +130,6 @@ app.put('/api/persons/:id', (request, response) => {
     });
 });
 
-const generateId = () => {
-  return Math.floor(Math.random() * (MAX_RAND - MIN_RAND) + MIN_RAND);
-}
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
