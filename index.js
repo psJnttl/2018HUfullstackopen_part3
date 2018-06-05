@@ -94,20 +94,29 @@ app.post('/api/persons', (request, response) => {
     return response.status(400).json({error: 'name, number or both missing'})
   }
 
-  const person = new Person({
-    name: body.name,
-    number: body.number
-  });
-  person
-    .save()
-    .then( (result) => {
-      const person = Person.formatPerson(result)
-      response.append("Location", "/api/persons/" + person.id);
-      response.status(201).json(person);
+  Person
+    .find({name: body.name})
+    .then(result => {
+      if (result.length !== 0) {
+        return response.status(400).json({error: 'Name already exists!'});
+      }
+      const person = new Person({
+        name: body.name,
+        number: body.number
+      });
+      person
+        .save()
+        .then( result => {
+          console.log("save result: ", result);
+          const person = Person.formatPerson(result)
+          response.append("Location", "/api/persons/" + person.id);
+          response.status(201).json(person);
+        });
     })
     .catch(error => {
       console.log(error);
     });
+
 });
 
 app.put('/api/persons/:id', (request, response) => {
