@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
-const constants = require('../../constants');
-const url = 'mongodb://' + constants.MLAB_USER + ':' + constants.MLAB_PASSWORD + '@ds237610.mlab.com:37610/fs2018_part3';
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+const url = process.env.FS18_PART3_MLAB_DB;
+console.log(url);
 mongoose.connect(url);
 const PersonSchema = new mongoose.Schema({
   name: String,
