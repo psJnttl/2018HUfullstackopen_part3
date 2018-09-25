@@ -1,1 +1,24 @@
-https://powerful-headland-93054.herokuapp.com/
+### Helsinki University Fullstack open 2018
+##### Part 3 submissions
+- 3.1
+- 3.2
+- 3.3
+- 3.4
+- 3.5
+- 3.6
+- 3.7
+- 3.8
+- 3.9
+- 3.10    https://powerful-headland-93054.herokuapp.com/
+- 3.11
+- 3.12
+- 3.13
+- 3.14
+- 3.15
+- 3.16
+- 3.17
+- 3.18
+- 3.19
+- 3.20
+- 3.21
+- 3.22
